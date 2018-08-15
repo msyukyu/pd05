@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 17:11:10 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/15 17:55:48 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/15 18:22:07 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strcapitalize(char *str)
 		else if ((str[i] >= 'A' && str[i] <= 'Z' && noword) || (str[i] >= '0' &&
 				str[i] <= '9'))
 			noword = 0;
-		else if (!((str[i] >= 'A' && str[i] <= 'Z') || ( str[i] >= 'a' &&
+		else if (!((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' &&
 						str[i] <= 'z') || (str[i] >= '0' && str[i] <= '9')))
 			noword = 1;
 		i++;
