@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 12:59:20 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/16 18:19:15 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/16 19:18:52 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,35 @@ int		ft_putchar(char c)
 	return (0);
 }
 
+int		ft_print_char(char *addr, int i)
+{
+	int		pinned;
+
+	pinned = -1;
+	if (addr[i] && pinned == -1)
+	{
+		ft_putchar(g_base_hexa[addr[i] / 16]);
+		ft_putchar(g_base_hexa[addr[i] % 16]);
+	}
+	else
+	{
+		if (pinned == -1)
+		{
+			ft_putchar('0');
+			ft_putchar('0');
+		}
+		else
+		{
+			ft_putchar(' ');
+			ft_putchar(' ');
+		}
+		pinned = i;
+	}
+	if (i % 2 == 1)
+		ft_putchar(' ');
+	return (pinned);
+}
+
 char	*ft_print_line(char *addr)
 {
 	int	i;
@@ -32,19 +61,7 @@ char	*ft_print_line(char *addr)
 	pinned = -1;
 	while (i < 16)
 	{
-		if (addr[i] && pinned == -1)
-		{
-			ft_putchar(g_base_hexa[addr[i] / 16]);
-			ft_putchar(g_base_hexa[addr[i] % 16]);
-		}
-		else
-		{
-			pinned = i;
-			ft_putchar(' ');
-			ft_putchar(' ');
-		}
-		if (i % 2 == 1)
-			ft_putchar(' ');
+		pinned = ft_print_char(addr, i);
 		i++;
 	}
 	return ((pinned != -1) ? addr + pinned : addr + i);
@@ -85,14 +102,18 @@ void	*ft_print_memory(void *addr, unsigned int size)
 		{
 			if (next_addr[i] < ' ' || next_addr[i] > '~')
 				ft_putchar('.');
-			else	
+			else
 				ft_putchar(next_addr[i]);
 			i++;
 		}
 		line++;
-		ft_putchar('\n');
 		if (next_addr[i] == '\0')
+		{
+			ft_putchar('.');
+			ft_putchar('\n');
 			break ;
+		}
+		ft_putchar('\n');
 		next_addr = next_addr + i;
 	}
 	return (addr);
@@ -102,5 +123,6 @@ int		main(int argc, char *argv[])
 {
 	if (argc == 3)
 		ft_print_memory(argv[1], atoi(argv[2]));
+	ft_print_memory("\n\t\ftrlukjlk\n\\", 19);
 	return (0);
 }
