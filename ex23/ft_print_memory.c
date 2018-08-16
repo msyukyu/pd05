@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 12:59:20 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/16 17:15:32 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/16 17:37:14 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_print_line(char *addr)
 	pinned = -1;
 	while (i < 16)
 	{
-		if (addr[i])
+		if (addr[i] && pinned == -1)
 		{
 			ft_putchar(g_base_hexa[addr[i] / 16]);
 			ft_putchar(g_base_hexa[addr[i] % 16]);
@@ -46,7 +46,7 @@ char	*ft_print_line(char *addr)
 			ft_putchar(' ');
 		i++;
 	}
-	return ((pinned != -1) ? pinned : i);
+	return ((pinned != -1) ? addr + pinned : addr + i);
 }
 
 void	ft_print_addr(intptr_t addr, int count)
@@ -65,12 +65,23 @@ void	ft_print_addr(intptr_t addr, int count)
 void	*ft_print_memory(void *addr, unsigned int size)
 {
 	intptr_t	addr_int;
+	char		*next_addr;
+	int			i;
 
+	next_addr = addr;
 	size = 0;
 	addr_int = (intptr_t)addr;
 	ft_print_addr(addr_int, 0);
 	ft_putchar(':');
 	ft_putchar(' ');
+	ft_print_line(addr);
+	ft_putchar(' ');
+	i = 0;
+	while (next_addr[i] && i < 16)
+	{
+		ft_putchar(next_addr[i]);
+		i++;
+	}
 	return (addr);
 }
 
