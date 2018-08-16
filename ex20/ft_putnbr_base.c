@@ -6,19 +6,11 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 22:01:07 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/15 22:01:09 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/16 09:04:17 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-
-int		ft_putchar(char c)
-{
-	write(1, &c, 1);
-	return (0);
-}
+int		ft_putchar(char c);
 
 int		ft_check_base(char *base)
 {
@@ -64,11 +56,4 @@ void	ft_putnbr_base(int nbr, char *base)
 	if (size == 0)
 		return ;
 	ft_recursive_print_digit(nbr, base, size);
-}
-
-int		main(int argc, char *argv[])
-{
-	if (argc == 3)
-		ft_putnbr_base(atoi(argv[1]), argv[2]);
-	return (0);
 }
