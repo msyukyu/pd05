@@ -5,32 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/16 10:13:52 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/16 11:14:44 by dabeloos         ###   ########.fr       */
+/*   Created: 2018/08/16 11:54:02 by dabeloos          #+#    #+#             */
+/*   Updated: 2018/08/16 12:10:11 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+static const char g_base_hexa[] = "0123456789abcdef";
 
-static const char c_base_hexa = "0123456789abcdef";
-
-int		ft_putchar(char c)
-{
-	write(1, &c, 1);
-	return (0);
-}
-
-void	ft_print_hexa(char c)
-{
-	char	hexa[17];
-	int		i;
-
-	i = 0;
-	while (i < 10)
-	{
-		
-	}
-}
+int		ft_putchar(char c);
 
 void	ft_putstr_non_printable(char *str)
 {
@@ -42,4 +24,11 @@ void	ft_putstr_non_printable(char *str)
 		if (str[i] < ' ' || str[i] > '~')
 		{
 			ft_putchar('\\');
-			ft_print_hexa(str[i]);
+			ft_putchar(g_base_hexa[str[i] / 16]);
+			ft_putchar(g_base_hexa[str[i] % 16]);
+		}
+		else
+			ft_putchar(str[i]);
+		i++;
+	}
+}
