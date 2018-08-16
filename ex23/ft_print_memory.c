@@ -6,12 +6,13 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 12:59:20 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/16 17:37:14 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/16 18:19:15 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static const char g_base_hexa[] = "0123456789abcdef";
 static const size_t g_size_memory = sizeof(intptr_t);
@@ -67,27 +68,39 @@ void	*ft_print_memory(void *addr, unsigned int size)
 	intptr_t	addr_int;
 	char		*next_addr;
 	int			i;
+	int			line;
 
 	next_addr = addr;
-	size = 0;
-	addr_int = (intptr_t)addr;
-	ft_print_addr(addr_int, 0);
-	ft_putchar(':');
-	ft_putchar(' ');
-	ft_print_line(addr);
-	ft_putchar(' ');
-	i = 0;
-	while (next_addr[i] && i < 16)
+	line = 0;
+	while (line < (int)((size / 16) + ((size % 16) != 0)))
 	{
-		ft_putchar(next_addr[i]);
-		i++;
+		addr_int = (intptr_t)next_addr;
+		ft_print_addr(addr_int, 0);
+		ft_putchar(':');
+		ft_putchar(' ');
+		ft_print_line(next_addr);
+		ft_putchar(' ');
+		i = 0;
+		while (next_addr[i] && i < 16)
+		{
+			if (next_addr[i] < ' ' || next_addr[i] > '~')
+				ft_putchar('.');
+			else	
+				ft_putchar(next_addr[i]);
+			i++;
+		}
+		line++;
+		ft_putchar('\n');
+		if (next_addr[i] == '\0')
+			break ;
+		next_addr = next_addr + i;
 	}
 	return (addr);
 }
 
 int		main(int argc, char *argv[])
 {
-	if (argc == 2)
-		ft_print_memory(argv[1], 0);
+	if (argc == 3)
+		ft_print_memory(argv[1], atoi(argv[2]));
 	return (0);
 }
