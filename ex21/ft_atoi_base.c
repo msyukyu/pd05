@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 09:09:54 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/16 10:12:40 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/18 19:13:07 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ int		ft_atoi_base(char *str, char *base)
 		RESULT = RESULT * SIZE + SIGN * (BASE_VALUE);
 		BASE_VALUE = ft_search_base(str[++VAR_I], base);
 	}
-	return (RESULT);
+	return ((BASE_VALUE == -1 && !(str[VAR_I] == '\0')) ? 0 : RESULT);
 }
