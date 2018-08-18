@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 14:04:40 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/18 14:30:52 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/18 14:39:38 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*ft_strstr(char *str, char *to_find)
 				else
 					break ;
 			}
+			str++;
 		}
-		str++;
 	}
 	return (str);
 }
