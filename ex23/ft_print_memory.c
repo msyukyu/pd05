@@ -6,28 +6,18 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 12:59:20 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/16 19:18:52 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/18 13:41:10 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 static const char g_base_hexa[] = "0123456789abcdef";
-static const size_t g_size_memory = sizeof(intptr_t);
 
-int		ft_putchar(char c)
+int		ft_putchar(char c);
+
+int		ft_print_char(char *addr, int i, int pinned)
 {
-	write(1, &c, 1);
-	return (0);
-}
-
-int		ft_print_char(char *addr, int i)
-{
-	int		pinned;
-
-	pinned = -1;
 	if (addr[i] && pinned == -1)
 	{
 		ft_putchar(g_base_hexa[addr[i] / 16]);
@@ -52,7 +42,7 @@ int		ft_print_char(char *addr, int i)
 	return (pinned);
 }
 
-char	*ft_print_line(char *addr)
+char	*ft_print_line(char *addr, unsigned int total, unsigned int size)
 {
 	int	i;
 	int pinned;
@@ -61,17 +51,21 @@ char	*ft_print_line(char *addr)
 	pinned = -1;
 	while (i < 16)
 	{
-		pinned = ft_print_char(addr, i);
+		if (total < size)
+			pinned = ft_print_char(addr, i, -1);
+		else
+			pinned = ft_print_char(addr, i, 0);
 		i++;
+		total++;
 	}
 	return ((pinned != -1) ? addr + pinned : addr + i);
 }
 
-void	ft_print_addr(intptr_t addr, int count)
+void	ft_print_addr(int addr, int count)
 {
 	if (addr < 16)
 	{
-		while (count++ < (int)(2 * g_size_memory) - 1)
+		while (count++ < (int)(sizeof(char*)) - 1)
 			ft_putchar('0');
 		ft_putchar(g_base_hexa[addr]);
 		return ;
@@ -80,49 +74,46 @@ void	ft_print_addr(intptr_t addr, int count)
 	ft_putchar(g_base_hexa[addr % 16]);
 }
 
+char	*ft_print_content(char *next_addr, int *line, unsigned int *total,
+		unsigned int size)
+{
+	int i;
+
+	i = 0;
+	while (i < 16 && *total < size)
+	{
+		if (next_addr[i] < ' ' || next_addr[i] > '~')
+			ft_putchar('.');
+		else
+			ft_putchar(next_addr[i]);
+		i++;
+		*total += 1;
+	}
+	*line += 1;
+	ft_putchar('\n');
+	next_addr = next_addr + i;
+	return (next_addr);
+}
+
 void	*ft_print_memory(void *addr, unsigned int size)
 {
-	intptr_t	addr_int;
-	char		*next_addr;
-	int			i;
-	int			line;
+	int				addr_int;
+	char			*next_addr;
+	int				line;
+	unsigned int	total;
 
 	next_addr = addr;
 	line = 0;
+	total = 0;
 	while (line < (int)((size / 16) + ((size % 16) != 0)))
 	{
-		addr_int = (intptr_t)next_addr;
-		ft_print_addr(addr_int, 0);
+		addr_int = (int)next_addr;
+		ft_print_addr((int)(next_addr), 0);
 		ft_putchar(':');
 		ft_putchar(' ');
-		ft_print_line(next_addr);
+		ft_print_line(next_addr, total, size);
 		ft_putchar(' ');
-		i = 0;
-		while (next_addr[i] && i < 16)
-		{
-			if (next_addr[i] < ' ' || next_addr[i] > '~')
-				ft_putchar('.');
-			else
-				ft_putchar(next_addr[i]);
-			i++;
-		}
-		line++;
-		if (next_addr[i] == '\0')
-		{
-			ft_putchar('.');
-			ft_putchar('\n');
-			break ;
-		}
-		ft_putchar('\n');
-		next_addr = next_addr + i;
+		next_addr = ft_print_content(next_addr, &line, &total, size);
 	}
 	return (addr);
-}
-
-int		main(int argc, char *argv[])
-{
-	if (argc == 3)
-		ft_print_memory(argv[1], atoi(argv[2]));
-	ft_print_memory("\n\t\ftrlukjlk\n\\", 19);
-	return (0);
 }
