@@ -6,11 +6,9 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 09:09:54 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/20 18:34:14 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/20 18:38:01 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
 
 int		ft_check_base(char *base)
 {
@@ -85,11 +83,4 @@ int		ft_atoi_base(char *str, char *base)
 	}
 	return ((base_value == -1 && !(str[var_i] == '\0') && str[var_i] != '-' &&
 				str[var_i] != '+') ? 0 : result);
-}
-
-int		main(int argc, char *argv[])
-{
-	if (argc == 3)
-		printf("%d", ft_atoi_base(argv[1], argv[2]));
-	return (0);
 }
