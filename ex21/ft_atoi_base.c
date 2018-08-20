@@ -6,15 +6,11 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 09:09:54 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/18 19:13:07 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/20 18:34:14 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define RESULT var[0]
-#define SIGN var[1]
-#define VAR_I var[2]
-#define SIZE var[3]
-#define BASE_VALUE var[4]
+#include <stdio.h>
 
 int		ft_check_base(char *base)
 {
@@ -49,31 +45,51 @@ int		ft_search_base(char c, char *base)
 	return (-1);
 }
 
+int		ft_check_sign(char *str, int *sign)
+{
+	int	var_i;
+
+	var_i = 0;
+	while (str[var_i] == ' ' || str[var_i] == '\t' || str[var_i] == '\n' ||
+			str[var_i] == '\r' || str[var_i] == '\v' || str[var_i] == '\f')
+		var_i++;
+	if (str[var_i] == '+')
+		var_i++;
+	else if (str[var_i] == '-')
+	{
+		var_i++;
+		*sign = -1;
+	}
+	return (var_i);
+}
+
 int		ft_atoi_base(char *str, char *base)
 {
-	int		var[5];
+	int		result;
+	int		sign;
+	int		var_i;
+	int		size;
+	int		base_value;
 
-	SIZE = ft_check_base(base);
-	if (SIZE < 2)
+	size = ft_check_base(base);
+	if (size < 2)
 		return (0);
-	RESULT = 0;
-	VAR_I = 0;
-	SIGN = 1;
-	while (str[VAR_I] == ' ' || str[VAR_I] == '\t' || str[VAR_I] == '\n' ||
-			str[VAR_I] == '\r' || str[VAR_I] == '\v' || str[VAR_I] == '\f')
-		VAR_I++;
-	if (str[VAR_I] == '+')
-		VAR_I++;
-	else if (str[VAR_I] == '-')
+	result = 0;
+	sign = 1;
+	var_i = ft_check_sign(str, &sign);
+	base_value = ft_search_base(str[var_i], base);
+	while (base_value != -1)
 	{
-		VAR_I++;
-		SIGN = -1;
+		result = result * size + sign * (base_value);
+		base_value = ft_search_base(str[++var_i], base);
 	}
-	BASE_VALUE = ft_search_base(str[VAR_I], base);
-	while (BASE_VALUE != -1)
-	{
-		RESULT = RESULT * SIZE + SIGN * (BASE_VALUE);
-		BASE_VALUE = ft_search_base(str[++VAR_I], base);
-	}
-	return ((BASE_VALUE == -1 && !(str[VAR_I] == '\0')) ? 0 : RESULT);
+	return ((base_value == -1 && !(str[var_i] == '\0') && str[var_i] != '-' &&
+				str[var_i] != '+') ? 0 : result);
+}
+
+int		main(int argc, char *argv[])
+{
+	if (argc == 3)
+		printf("%d", ft_atoi_base(argv[1], argv[2]));
+	return (0);
 }
