@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:30:00 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/08/18 18:15:31 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/08/20 17:29:08 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 	unsigned int	pinned;
 
 	l = 0;
-	while (dest[l] != '\0')
+	while (dest[l] != '\0' && l < size)
 		l++;
 	pinned = l;
 	result = l;
@@ -26,7 +26,7 @@ unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 		l++;
 	result += l;
 	l = 0;
-	while (src[pinned + l] != '\0' && pinned + l < size - 1)
+	while (src[l] != '\0' && pinned + l < size - 1)
 	{
 		dest[pinned + l] = src[l];
 		l++;
