@@ -14,7 +14,11 @@
 
 static const char g_base_hexa[] = "0123456789abcdef";
 
-int		ft_putchar(char c);
+int		ft_putchar(char c)
+{
+	write(1, &c, 1);
+	return (1);
+}
 
 int		ft_print_char(char *addr, int i, int pinned)
 {
@@ -61,7 +65,7 @@ char	*ft_print_line(char *addr, unsigned int total, unsigned int size)
 	return ((pinned != -1) ? addr + pinned : addr + i);
 }
 
-void	ft_print_addr(int addr, int count)
+void	ft_print_addr(unsigned long addr, int count)
 {
 	if (addr < 16)
 	{
@@ -97,7 +101,7 @@ char	*ft_print_content(char *next_addr, int *line, unsigned int *total,
 
 void	*ft_print_memory(void *addr, unsigned int size)
 {
-	int				addr_int;
+	unsigned long	addr_int;
 	char			*next_addr;
 	int				line;
 	unsigned int	total;
@@ -107,8 +111,8 @@ void	*ft_print_memory(void *addr, unsigned int size)
 	total = 0;
 	while (line < (int)((size / 16) + ((size % 16) != 0)))
 	{
-		addr_int = (int)next_addr;
-		ft_print_addr((int)(next_addr), 0);
+		addr_int = (unsigned long)next_addr;
+		ft_print_addr((unsigned long)(next_addr), 0);
 		ft_putchar(':');
 		ft_putchar(' ');
 		ft_print_line(next_addr, total, size);
@@ -116,4 +120,12 @@ void	*ft_print_memory(void *addr, unsigned int size)
 		next_addr = ft_print_content(next_addr, &line, &total, size);
 	}
 	return (addr);
+}
+
+int		main(void)
+{
+	char	*surprise = "###Bon anniversaire!###Bon anniversaire!###Bon anniversaire!###Bon anniversaire!###Bon anniversaire!";
+
+	ft_print_memory(surprise, 101);
+	return (0);
 }
